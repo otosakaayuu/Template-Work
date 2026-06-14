@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crypto + Macro Research Analyst Cheatsheet</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-card: #111111;
+    --bg-card2: #161616;
+    --bg-header: #0f0f0f;
+    --border: rgba(255,255,255,0.07);
+    --border-em: rgba(255,255,255,0.13);
+    --text: #e8e8e8;
+    --text-muted: #888;
+    --text-hint: #555;
+    --accent: #f0b429;
+    --accent-dim: rgba(240,180,41,0.12);
+    --green: #22c55e;
+    --green-bg: rgba(34,197,94,0.1);
+    --red: #ef4444;
+    --red-bg: rgba(239,68,68,0.1);
+    --orange: #f97316;
+    --orange-bg: rgba(249,115,22,0.1);
+    --blue: #60a5fa;
+    --blue-bg: rgba(96,165,250,0.1);
+    --gray-bg: rgba(255,255,255,0.05);
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  /* ─── HEADER ─────────────────────────────────────────── */
+  .site-header {
+    background: var(--bg-header);
+    border-bottom: 0.5px solid var(--border-em);
+    padding: 20px 24px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .site-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.01em;
+    margin-bottom: 2px;
+  }
+  .site-subtitle {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .accent-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  /* ─── TAB NAV ─────────────────────────────────────────── */
+  .tab-nav {
+    background: var(--bg-header);
+    border-bottom: 0.5px solid var(--border);
+    padding: 0 24px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tab-nav::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    padding: 11px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+    letter-spacing: 0.02em;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* ─── LAYOUT ─────────────────────────────────────────── */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px 20px 60px;
+  }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ─── FREQ BADGE ─────────────────────────────────────── */
+  .panel-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    background: var(--bg-card);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+  }
+  .freq-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .badge-W { background: var(--blue-bg); color: var(--blue); }
+  .badge-M { background: rgba(167,139,250,0.12); color: #a78bfa; }
+  .badge-Q { background: var(--orange-bg); color: var(--orange); }
+  .badge-Y { background: var(--green-bg); color: var(--green); }
+  .badge-OUT { background: var(--gray-bg); color: var(--text-muted); }
+  .badge-SRC { background: var(--accent-dim); color: var(--accent); }
+  .badge-TF  { background: rgba(236,72,153,0.12); color: #f472b6; }
+  .panel-header-text { font-size: 11px; color: var(--text-muted); }
+
+  /* ─── SECTION TITLE ──────────────────────────────────── */
+  .section-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 24px 0 10px;
+    padding-bottom: 8px;
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  /* ─── GRIDS ──────────────────────────────────────────── */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .grid4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+
+  @media (max-width: 768px) {
+    .grid2, .grid3, .grid4 { grid-template-columns: 1fr; }
+    .tab-btn { padding: 10px 12px; font-size: 11px; }
+    .main { padding: 16px 14px 60px; }
+  }
+  @media (min-width: 480px) and (max-width: 768px) {
+    .grid2 { grid-template-columns: 1fr 1fr; }
+    .grid3 { grid-template-columns: 1fr 1fr; }
+    .grid4 { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ─── CARDS ──────────────────────────────────────────── */
+  .card {
+    background: var(--bg-card);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 12px 14px;
+  }
+  .card.highlight {
+    border-color: var(--border-em);
+    background: var(--bg-card2);
+  }
+  .card-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+    letter-spacing: 0.01em;
+  }
+
+  /* ─── ITEMS ──────────────────────────────────────────── */
+  .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 0;
+    border-bottom: 0.5px solid var(--border);
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .item:last-child { border-bottom: none; }
+  .item-left { flex: 1; }
+
+  /* ─── TAGS ───────────────────────────────────────────── */
+  .tag {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .t1 { background: var(--green-bg); color: var(--green); }
+  .t2 { background: var(--orange-bg); color: var(--orange); }
+  .t3 { background: var(--gray-bg); color: var(--text-muted); }
+  .tx { background: var(--red-bg); color: var(--red); }
+
+  /* ─── SIGNAL COLORS ──────────────────────────────────── */
+  .up { color: var(--green); font-weight: 500; font-size: 11px; white-space: nowrap; }
+  .dn { color: var(--red); font-weight: 500; font-size: 11px; white-space: nowrap; }
+  .mx { color: var(--orange); font-weight: 500; font-size: 11px; white-space: nowrap; }
+
+  /* ─── SIGNALS ────────────────────────────────────────── */
+  .signal-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+  .signal { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; }
+  .bull { background: var(--green-bg); color: var(--green); }
+  .bear { background: var(--red-bg); color: var(--red); }
+  .neu { background: var(--gray-bg); color: var(--text-muted); }
+
+  /* ─── CODE ───────────────────────────────────────────── */
+  .code {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 10px;
+    background: rgba(255,255,255,0.06);
+    color: var(--accent);
+    padding: 1px 5px;
+    border-radius: 4px;
+    border: 0.5px solid var(--border-em);
+  }
+
+  /* ─── CHECKLIST ──────────────────────────────────────── */
+  .checklist { list-style: none; padding: 0; }
+  .checklist li {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    padding: 4px 0;
+    border-bottom: 0.5px solid var(--border);
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check {
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+    min-width: 14px;
+  }
+
+  /* ─── SCORE CARD ─────────────────────────────────────── */
+  .score-section-head {
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    padding-bottom: 3px;
+  }
+  .score-green { color: var(--green); }
+  .score-red { color: var(--red); }
+  .score-orange { color: var(--orange); }
+
+  /* ─── FOOTER META ────────────────────────────────────── */
+  .note-text {
+    font-size: 10px;
+    color: var(--text-hint);
+    padding: 4px 0;
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-title"><span class="accent-dot"></span>Crypto + Macro Research Analyst Cheatsheet</div>
+  <div class="site-subtitle">Framework untuk Exchange Research · Weekly · Monthly · Quarterly · Yearly</div>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('weekly',this)">📅 Weekly</button>
+  <button class="tab-btn" onclick="showTab('monthly',this)">📆 Monthly</button>
+  <button class="tab-btn" onclick="showTab('quarterly',this)">🗓️ Quarterly</button>
+  <button class="tab-btn" onclick="showTab('yearly',this)">📊 Yearly</button>
+  <button class="tab-btn" onclick="showTab('tradfi',this)">📈 TradFi Correlations</button>
+  <button class="tab-btn" onclick="showTab('output',this)">📝 Output Format</button>
+  <button class="tab-btn" onclick="showTab('sources',this)">🔗 Sources</button>
+</nav>
+
+<main class="main">
+
+<!-- ==================== WEEKLY ==================== -->
+<div class="panel active" id="panel-weekly">
+  <div class="panel-header">
+    <span class="freq-badge badge-W">WEEKLY</span>
+    <span class="panel-header-text">Senin pagi sebelum pasar buka — update setiap Jumat setelah close</span>
+  </div>
+
+  <div class="section-title">1. Macro Liquidity Check — Tier 1 (wajib setiap minggu)</div>
+  <div class="grid3">
+    <div class="card highlight">
+      <div class="card-title">Net Liquidity Formula</div>
+      <div class="item"><span class="item-left"><span class="code">WALCL</span> Fed Balance Sheet</span><span class="tag t1">+Bullish</span></div>
+      <div class="item"><span class="item-left"><span class="code">WTREGEN</span> TGA Balance</span><span class="tag tx">−Bearish</span></div>
+      <div class="item"><span class="item-left"><span class="code">RRPONTSYD</span> ON RRP</span><span class="tag tx">−Bearish</span></div>
+      <div class="item" style="margin-top:4px"><span class="item-left" style="font-weight:600;font-size:10px;color:var(--text)">Net = WALCL − (TGA + RRP)</span><span class="tag t1">Core signal</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">TGA Monitor Khusus</div>
+      <div class="item"><span class="item-left">TGA turun >$20B/minggu</span><span class="tag t1">Inject signal</span></div>
+      <div class="item"><span class="item-left">TGA turun >$80B/bulan</span><span class="tag t1">Strong bullish</span></div>
+      <div class="item"><span class="item-left">TGA naik konsisten</span><span class="tag tx">Headwind</span></div>
+      <div class="item"><span class="item-left">Debt ceiling drama</span><span class="tag t2">Watch closely</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">SOFR-IORB Spread</div>
+      <div class="item"><span class="item-left">Spread negatif (normal)</span><span class="tag t1">System healthy</span></div>
+      <div class="item"><span class="item-left">Spread mendekati 0</span><span class="tag t2">Warning zone</span></div>
+      <div class="item"><span class="item-left">Spread positif / spike</span><span class="tag tx">Stress signal</span></div>
+      <div class="item"><span class="item-left">SRF usage naik tiba²</span><span class="tag tx">Crisis early warning</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">2. Rates & Credit (Weekly pulse)</div>
+  <div class="grid4">
+    <div class="card">
+      <div class="card-title">Real Yield <span class="code">DFII10</span></div>
+      <div class="item"><span class="item-left">Turun =</span><span class="up">Bullish BTC+Gold</span></div>
+      <div class="item"><span class="item-left">Naik =</span><span class="dn">Bearish BTC</span></div>
+      <div class="item"><span class="item-left">Di bawah 0 =</span><span class="up">Very Bullish</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">HY Spread <span class="code">BAMLH0A0HYM2</span></div>
+      <div class="item"><span class="item-left">Menyempit =</span><span class="up">Risk-on</span></div>
+      <div class="item"><span class="item-left">Melebar =</span><span class="dn">Risk-off</span></div>
+      <div class="item"><span class="item-left">>600bps =</span><span class="dn">Panic mode</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">10Y Yield <span class="code">DGS10</span></div>
+      <div class="item"><span class="item-left">Naik cepat =</span><span class="dn">Bearish</span></div>
+      <div class="item"><span class="item-left">Stabil/turun =</span><span class="up">Supportive</span></div>
+      <div class="item"><span class="item-left">Breakout level =</span><span class="mx">Watch</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">TWI Dollar <span class="code">DTWEXBGS</span></div>
+      <div class="item"><span class="item-left">Melemah =</span><span class="up">Global bullish</span></div>
+      <div class="item"><span class="item-left">Menguat =</span><span class="dn">EM + BTC tertekan</span></div>
+      <div class="item"><span class="item-left">Break support =</span><span class="up">BTC trigger</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">3. Crypto On-Chain & Market Structure (Weekly)</div>
+  <div class="grid3">
+    <div class="card">
+      <div class="card-title">Exchange Flows</div>
+      <div class="item"><span class="item-left">BTC exchange netflow</span><span class="tag t1">Wajib</span></div>
+      <div class="item"><span class="item-left">ETH exchange netflow</span><span class="tag t1">Wajib</span></div>
+      <div class="item"><span class="item-left">Outflow dominan =</span><span class="up">Akumulasi</span></div>
+      <div class="item"><span class="item-left">Inflow dominan =</span><span class="dn">Distribusi</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Stablecoin Supply</div>
+      <div class="item"><span class="item-left">USDT total supply</span><span class="tag t1">Wajib</span></div>
+      <div class="item"><span class="item-left">USDC total supply</span><span class="tag t1">Wajib</span></div>
+      <div class="item"><span class="item-left">Inflow ke CEX =</span><span class="up">Buying power</span></div>
+      <div class="item"><span class="item-left">Outflow dari CEX =</span><span class="dn">Reduced demand</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Derivatives</div>
+      <div class="item"><span class="item-left">Open Interest BTC</span><span class="tag t2">Monitor</span></div>
+      <div class="item"><span class="item-left">Funding Rate</span><span class="tag t2">Monitor</span></div>
+      <div class="item"><span class="item-left">Funding >0.1% =</span><span class="dn">Long squeeze risk</span></div>
+      <div class="item"><span class="item-left">Liquidation heatmap</span><span class="tag t2">Key levels</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">4. Weekly Economic Calendar</div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">High Impact Events (pantau tiap minggu)</div>
+      <ul class="checklist">
+        <li><span class="check">→</span>FOMC meeting / minutes (8x setahun)</li>
+        <li><span class="check">→</span>CPI release (setiap bulan ~hari ke-12)</li>
+        <li><span class="check">→</span>NFP release (Jumat pertama tiap bulan)</li>
+        <li><span class="check">→</span>PPI release (sehari sebelum/sesudah CPI)</li>
+        <li><span class="check">→</span>Jobless Claims (setiap Kamis)</li>
+        <li><span class="check">→</span>Fed speakers / Powell speech</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Crypto-Specific Weekly Events</div>
+      <ul class="checklist">
+        <li><span class="check">→</span>BTC ETF flow data (daily, compile weekly)</li>
+        <li><span class="check">→</span>CME futures expiry (setiap Jumat)</li>
+        <li><span class="check">→</span>Options expiry major (akhir bulan)</li>
+        <li><span class="check">→</span>Miner outflow trend</li>
+        <li><span class="check">→</span>Whale wallet movement (>1000 BTC)</li>
+        <li><span class="check">→</span>Regulatory news scan</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-title">5. Weekly Signal Checklist (Bullish/Bearish Score)</div>
+  <div class="card">
+    <div class="grid4">
+      <div>
+        <div class="score-section-head score-green">Bullish signals</div>
+        <div class="item"><span class="item-left">Net Liquidity naik</span><span class="up">+2</span></div>
+        <div class="item"><span class="item-left">TGA turun >$20B</span><span class="up">+2</span></div>
+        <div class="item"><span class="item-left">Real yield turun</span><span class="up">+2</span></div>
+        <div class="item"><span class="item-left">HY spread sempit</span><span class="up">+1</span></div>
+        <div class="item"><span class="item-left">BTC outflow CEX</span><span class="up">+1</span></div>
+      </div>
+      <div>
+        <div class="score-section-head score-red">Bearish signals</div>
+        <div class="item"><span class="item-left">Net Liquidity turun</span><span class="dn">−2</span></div>
+        <div class="item"><span class="item-left">TGA naik >$20B</span><span class="dn">−2</span></div>
+        <div class="item"><span class="item-left">Real yield naik</span><span class="dn">−2</span></div>
+        <div class="item"><span class="item-left">HY spread lebar</span><span class="dn">−1</span></div>
+        <div class="item"><span class="item-left">BTC inflow CEX</span><span class="dn">−1</span></div>
+      </div>
+      <div>
+        <div class="score-section-head score-orange">Interpretasi skor</div>
+        <div class="item"><span class="item-left">+7 hingga +10</span><span class="up">Strong bull</span></div>
+        <div class="item"><span class="item-left">+3 hingga +6</span><span class="up">Mild bull</span></div>
+        <div class="item"><span class="item-left">−2 hingga +2</span><span class="mx">Neutral</span></div>
+        <div class="item"><span class="item-left">−3 hingga −6</span><span class="dn">Mild bear</span></div>
+        <div class="item"><span class="item-left">−7 hingga −10</span><span class="dn">Strong bear</span></div>
+      </div>
+      <div>
+        <div class="score-section-head" style="color:var(--text-muted)">Tambahan</div>
+        <div class="item"><span class="item-left">MMF outflow</span><span class="up">+1</span></div>
+        <div class="item"><span class="item-left">TWI melemah</span><span class="up">+1</span></div>
+        <div class="item"><span class="item-left">VIX turun</span><span class="up">+1</span></div>
+        <div class="item"><span class="item-left">SOFR-IORB spike</span><span class="dn">−2</span></div>
+        <div class="item"><span class="item-left">Funding rate ekstrem</span><span class="dn">−1</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== MONTHLY ==================== -->
+<div class="panel" id="panel-monthly">
+  <div class="panel-header">
+    <span class="freq-badge badge-M">MONTHLY</span>
+    <span class="panel-header-text">Minggu pertama tiap bulan — setelah NFP release</span>
+  </div>
+
+  <div class="section-title">1. Macro Big Picture (Monthly refresh)</div>
+  <div class="grid3">
+    <div class="card highlight">
+      <div class="card-title">Global M2 Update</div>
+      <div class="item"><span class="item-left"><span class="code">M2SL</span> US M2</span><span class="tag t1">Core</span></div>
+      <div class="item"><span class="item-left">EU M2 (ECB data)</span><span class="tag t1">Core</span></div>
+      <div class="item"><span class="item-left">China M2 (PBoC)</span><span class="tag t1">Core</span></div>
+      <div class="item"><span class="item-left">Japan M2 (BoJ)</span><span class="tag t1">Core</span></div>
+      <div class="note-text">Sum 4 = Global M2 proxy. Naik = BTC bull fuel.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Inflation Suite</div>
+      <div class="item"><span class="item-left"><span class="code">CPIAUCSL</span> CPI</span><span class="tag t3">Context</span></div>
+      <div class="item"><span class="item-left"><span class="code">PCEPILFE</span> Core PCE</span><span class="tag t2">Fed target</span></div>
+      <div class="item"><span class="item-left"><span class="code">T10YIE</span> Breakeven</span><span class="tag t1">Market expectation</span></div>
+      <div class="item"><span class="item-left"><span class="code">MICH</span> UMich 1Y</span><span class="tag t2">Consumer view</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Labor Composite (untuk Fed signal)</div>
+      <div class="item"><span class="item-left"><span class="code">PAYEMS</span> NFP</span><span class="tag tx">Hati-hati revisi</span></div>
+      <div class="item"><span class="item-left"><span class="code">UNRATE</span> Unemployment</span><span class="tag t3">Lagging</span></div>
+      <div class="item"><span class="item-left"><span class="code">JTSJOL</span> JOLTS</span><span class="tag t2">Better signal</span></div>
+      <div class="item"><span class="item-left"><span class="code">DRCCLACBS</span> Delinquency</span><span class="tag t3">Consumer stress</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">2. Fed Policy Assessment (Monthly)</div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">CME FedWatch Probability</div>
+      <div class="item"><span class="item-left">Hike probability >50%</span><span class="dn">Hawkish — bearish BTC</span></div>
+      <div class="item"><span class="item-left">Hold probability >70%</span><span class="mx">Neutral — sideways</span></div>
+      <div class="item"><span class="item-left">Cut probability >50%</span><span class="up">Dovish — bullish BTC</span></div>
+      <div class="item"><span class="item-left">Cut >50bps surprise</span><span class="up">Very bullish signal</span></div>
+      <div class="item"><span class="item-left">Dot plot vs market gap</span><span class="mx">Watch divergence</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Short Dovish Long Hawkish Check</div>
+      <div class="item"><span class="item-left">FOMC dot plot 2027-2030</span><span class="tag t2">3%+ new neutral</span></div>
+      <div class="item"><span class="item-left">Era ZIRP tidak kembali</span><span class="tag t3">Accept reality</span></div>
+      <div class="item"><span class="item-left">Window dovish aktif?</span><span class="up">Rate masih turun</span></div>
+      <div class="item"><span class="item-left">Stagflasi signal aktif?</span><span class="dn">Fed terjebak</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">3. Crypto Market Structure (Monthly)</div>
+  <div class="grid3">
+    <div class="card">
+      <div class="card-title">BTC Cycle Position</div>
+      <div class="item"><span class="item-left">BTC Dominance trend</span><span class="tag t1">Wajib</span></div>
+      <div class="item"><span class="item-left">Halving cycle position</span><span class="tag t1">Structural</span></div>
+      <div class="item"><span class="item-left">Stock-to-Flow ratio</span><span class="tag t2">Supply scarcity</span></div>
+      <div class="item"><span class="item-left">Miner revenue trend</span><span class="tag t2">Floor indicator</span></div>
+      <div class="item"><span class="item-left">Hash rate ATH/decline</span><span class="tag t2">Network health</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Institutional Flows</div>
+      <div class="item"><span class="item-left">BTC ETF (Blackrock IBIT)</span><span class="tag t1">Weekly AUM</span></div>
+      <div class="item"><span class="item-left">ETH ETF flows</span><span class="tag t1">Track monthly</span></div>
+      <div class="item"><span class="item-left">Grayscale GBTC flows</span><span class="tag t2">Legacy indicator</span></div>
+      <div class="item"><span class="item-left">MicroStrategy holdings</span><span class="tag t2">Corporate signal</span></div>
+      <div class="item"><span class="item-left">CME futures OI trend</span><span class="tag t2">Institutional proxy</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Altcoin Landscape</div>
+      <div class="item"><span class="item-left">ETH/BTC ratio</span><span class="tag t2">Altseason signal</span></div>
+      <div class="item"><span class="item-left">Total2 (ex BTC)</span><span class="tag t2">Altcoin liquidity</span></div>
+      <div class="item"><span class="item-left">Total3 (ex BTC+ETH)</span><span class="tag t2">Alt flow proxy</span></div>
+      <div class="item"><span class="item-left">DeFi TVL trend</span><span class="tag t3">On-chain activity</span></div>
+      <div class="item"><span class="item-left">Stablecoin market cap</span><span class="tag t1">Dry powder</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">4. Monthly Z-Score Dashboard</div>
+  <div class="card">
+    <div class="note-text" style="margin-bottom:10px;font-size:11px;color:var(--text-muted)">Hitung Z-Score untuk indikator kunci: Z = (nilai sekarang − rata² 12 bulan) ÷ std dev 12 bulan</div>
+    <div class="grid4">
+      <div>
+        <div class="score-section-head" style="color:var(--text-muted)">BTC Metrics</div>
+        <div class="item"><span class="item-left">BTC Price Z-Score</span></div>
+        <div class="item"><span class="item-left">BTC YoY Change Z</span></div>
+        <div class="item"><span class="item-left">BTC Volume Z-Score</span></div>
+        <div class="item"><span class="item-left">Open Interest Z</span></div>
+      </div>
+      <div>
+        <div class="score-section-head" style="color:var(--text-muted)">Macro Metrics</div>
+        <div class="item"><span class="item-left">M2 Growth Z-Score</span></div>
+        <div class="item"><span class="item-left">Net Liquidity Z</span></div>
+        <div class="item"><span class="item-left">Real Yield Z-Score</span></div>
+        <div class="item"><span class="item-left">HY Spread Z-Score</span></div>
+      </div>
+      <div>
+        <div class="score-section-head" style="color:var(--text-muted)">Interpretation</div>
+        <div class="item"><span class="item-left">>+2 = Euphoria</span><span class="dn">Distribusi</span></div>
+        <div class="item"><span class="item-left">+1 to +2</span><span class="up">Bullish</span></div>
+        <div class="item"><span class="item-left">−1 to +1</span><span class="mx">Normal</span></div>
+        <div class="item"><span class="item-left"><−2 = Crash zone</span><span class="up">Akumulasi</span></div>
+      </div>
+      <div>
+        <div class="score-section-head" style="color:var(--text-muted)">Key combos</div>
+        <div class="item"><span class="item-left">M2 Z+ & BTC Z−</span><span class="up">Best entry</span></div>
+        <div class="item"><span class="item-left">M2 Z− & BTC Z+</span><span class="dn">Risk of top</span></div>
+        <div class="item"><span class="item-left">Both negative</span><span class="mx">Accumulate</span></div>
+        <div class="item"><span class="item-left">Both extreme +</span><span class="dn">Caution</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== QUARTERLY ==================== -->
+<div class="panel" id="panel-quarterly">
+  <div class="panel-header">
+    <span class="freq-badge badge-Q">QUARTERLY</span>
+    <span class="panel-header-text">Awal Januari, April, Juli, Oktober — deep dive comprehensive</span>
+  </div>
+
+  <div class="section-title">1. Macro Regime Assessment (Quarterly)</div>
+  <div class="grid2">
+    <div class="card highlight">
+      <div class="card-title">4 Regime Makro dan Posisi BTC</div>
+      <div class="item"><span class="item-left">Growth naik + Inflasi turun</span><span class="up">Goldilocks — BTC bull</span></div>
+      <div class="item"><span class="item-left">Growth naik + Inflasi naik</span><span class="mx">Reflation — BTC ok tapi volatil</span></div>
+      <div class="item"><span class="item-left">Growth turun + Inflasi turun</span><span class="mx">Deflation — BTC mixed, Fed pivot</span></div>
+      <div class="item"><span class="item-left">Growth turun + Inflasi naik</span><span class="dn">STAGFLASI — BTC worst case</span></div>
+      <div class="note-text" style="color:var(--red)">2025 = regime 4. UMich konfirmasi. Fed terjebak.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">GDP Quality Analysis (bukan headline)</div>
+      <div class="item"><span class="item-left"><span class="code">PCE</span> Consumption %</span><span class="tag t1">Kunci utama</span></div>
+      <div class="item"><span class="item-left">Govt Spending %</span><span class="tag t3">Artificial</span></div>
+      <div class="item"><span class="item-left">Net Exports %</span><span class="tag t3">Tariff effect</span></div>
+      <div class="item"><span class="item-left">Nonres Investment %</span><span class="tag t2">Organic growth</span></div>
+      <div class="item"><span class="item-left">Consumption dominan?</span><span class="up">Sustainable growth</span></div>
+      <div class="item"><span class="item-left">Govt spending dominan?</span><span class="dn">Artificial — watch</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">2. Structural Risk Assessment (Quarterly)</div>
+  <div class="grid3">
+    <div class="card">
+      <div class="card-title">Twin Deficit Monitor</div>
+      <div class="item"><span class="item-left"><span class="code">FYFSD</span> Fiscal deficit % GDP</span></div>
+      <div class="item"><span class="item-left"><span class="code">BOPGSTB</span> Trade deficit</span></div>
+      <div class="item"><span class="item-left">Target: keduanya memburuk</span><span class="dn">= Dolar melemah LT</span></div>
+      <div class="item"><span class="item-left">Implikasi: BTC narrative</span><span class="up">Makin kuat</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Debt Spiral Check</div>
+      <div class="item"><span class="item-left"><span class="code">GFDEBTN</span> Federal Debt</span></div>
+      <div class="item"><span class="item-left"><span class="code">FYOINT</span> Interest payment</span></div>
+      <div class="item"><span class="item-left">Interest % of revenue</span><span class="tag tx">Heading to 30%+</span></div>
+      <div class="item"><span class="item-left">Monetisasi makin likely?</span><span class="up">BTC structural bull</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Japan Carry Trade Risk</div>
+      <div class="item"><span class="item-left"><span class="code">IRLTLT01JPM156N</span> JGB yield</span></div>
+      <div class="item"><span class="item-left">BoJ rate hike signal?</span><span class="dn">Unwind risk</span></div>
+      <div class="item"><span class="item-left">JPY/USD level</span><span class="tag t2">Watch 150+</span></div>
+      <div class="item"><span class="item-left">Nikkei correlation BTC</span><span class="tag t2">Monitor</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">3. Crypto Fundamentals Quarterly Review</div>
+  <div class="grid4">
+    <div class="card">
+      <div class="card-title">Network Fundamentals</div>
+      <div class="item"><span class="item-left">Hash rate trend</span></div>
+      <div class="item"><span class="item-left">Mining difficulty adj</span></div>
+      <div class="item"><span class="item-left">Miner revenue USD</span></div>
+      <div class="item"><span class="item-left">Energy mix % renewable</span></div>
+      <div class="item"><span class="item-left">Cost of production</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Adoption Metrics</div>
+      <div class="item"><span class="item-left">Active addresses trend</span></div>
+      <div class="item"><span class="item-left">New wallet creation</span></div>
+      <div class="item"><span class="item-left">Lightning Network growth</span></div>
+      <div class="item"><span class="item-left">Corporate treasury BTC</span></div>
+      <div class="item"><span class="item-left">Sovereign adoption news</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Valuation Models</div>
+      <div class="item"><span class="item-left">NVT ratio vs historical</span></div>
+      <div class="item"><span class="item-left">MVRV Z-Score</span></div>
+      <div class="item"><span class="item-left">Puell Multiple</span></div>
+      <div class="item"><span class="item-left">Realized Price vs Market</span></div>
+      <div class="item"><span class="item-left">Stock-to-Flow deviation</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Regulatory Landscape</div>
+      <div class="item"><span class="item-left">US regulatory status</span></div>
+      <div class="item"><span class="item-left">EU MiCA implementation</span></div>
+      <div class="item"><span class="item-left">ETF approval pipeline</span></div>
+      <div class="item"><span class="item-left">Stablecoin regulation</span></div>
+      <div class="item"><span class="item-left">Exchange legal risks</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">4. Quarterly S&P 500 & Equity Correlation</div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Bull/Bear Market Status (20% Rule)</div>
+      <div class="item"><span class="item-left">S&P500 dari peak terakhir</span><span class="tag t2">Hitung % distance</span></div>
+      <div class="item"><span class="item-left">Turun >20% dari peak</span><span class="dn">Bear market — BTC −2-4x</span></div>
+      <div class="item"><span class="item-left">Naik >20% dari bottom</span><span class="up">Bull market — BTC outperform</span></div>
+      <div class="item"><span class="item-left">BTC vs S&P correlation 90D</span><span class="tag t2">Track quarterly</span></div>
+      <div class="item"><span class="item-left">Correlation >0.7</span><span class="mx">BTC = risk asset</span></div>
+      <div class="item"><span class="item-left">Correlation <0.3</span><span class="up">BTC = digital gold</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Regional Equity Performance</div>
+      <div class="item"><span class="item-left">US (S&P500, Nasdaq)</span><span class="tag t1">Anchor</span></div>
+      <div class="item"><span class="item-left">China (CSI300, HSI)</span><span class="tag t1">Separate signal</span></div>
+      <div class="item"><span class="item-left">EU (Euro Stoxx)</span><span class="tag t2">ECB proxy</span></div>
+      <div class="item"><span class="item-left">Japan (Nikkei)</span><span class="tag t2">Carry trade signal</span></div>
+      <div class="item"><span class="item-left">EM Index</span><span class="tag t2">DXY sensitivity</span></div>
+      <div class="item"><span class="item-left">All rising together?</span><span class="up">Global risk-on</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== YEARLY ==================== -->
+<div class="panel" id="panel-yearly">
+  <div class="panel-header">
+    <span class="freq-badge badge-Y">YEARLY</span>
+    <span class="panel-header-text">Januari setiap tahun — state of the macro untuk seluruh tahun</span>
+  </div>
+
+  <div class="section-title">1. Annual Macro Thesis (The Big Picture)</div>
+  <div class="grid2">
+    <div class="card highlight">
+      <div class="card-title">Structural Thesis Check — 5 Pilar BTC Narrative</div>
+      <div class="item"><span class="item-left">1. Federal debt spiral berlanjut?</span><span class="up">Makin kuat tiap tahun</span></div>
+      <div class="item"><span class="item-left">2. Twin deficit memburuk?</span><span class="up">Dolar erosi struktural</span></div>
+      <div class="item"><span class="item-left">3. Fed credibility erosi?</span><span class="up">Non-sovereign asset demand</span></div>
+      <div class="item"><span class="item-left">4. De-dolarisasi BRICS?</span><span class="up">Alternative reserve push</span></div>
+      <div class="item"><span class="item-left">5. MMF $7T+ dry powder?</span><span class="up">Latent demand for BTC</span></div>
+      <div class="note-text" style="color:var(--green)">Semua 5 pilar aktif = strongest multi-year bull case for BTC</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Real Broad TWI Dollar Cycle</div>
+      <div class="item"><span class="item-left">GS forecast TWI direction</span><span class="tag t1">Yearly anchor</span></div>
+      <div class="item"><span class="item-left">Historical: peak → −10-22%</span><span class="tag t2">24 bulan setelah peak</span></div>
+      <div class="item"><span class="item-left">Jan 2025 peak → −5% GS</span><span class="up">2025-2026 favorable</span></div>
+      <div class="item"><span class="item-left">TWI melemah + M2 naik</span><span class="up">Best macro condition BTC</span></div>
+      <div class="item"><span class="item-left">DXY vs TWI diverge?</span><span class="mx">Use TWI, ignore DXY</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">2. BTC Halving Cycle Framework (4-Year)</div>
+  <div class="card">
+    <div class="grid4">
+      <div>
+        <div class="score-section-head" style="color:var(--text-muted)">Year 1 post-halving</div>
+        <div class="item"><span class="item-left">Akumulasi / sideways</span></div>
+        <div class="item"><span class="item-left">Miner stress tinggi</span></div>
+        <div class="item"><span class="item-left">Supply shock mulai</span></div>
+        <div class="item"><span class="item-left">Best accumulation phase</span></div>
+      </div>
+      <div>
+        <div class="score-section-head" style="color:var(--green)">Year 2 post-halving</div>
+        <div class="item"><span class="item-left">Bull run dimulai</span></div>
+        <div class="item"><span class="item-left">Institutional entry</span></div>
+        <div class="item"><span class="item-left">M2 narrative kicks in</span></div>
+        <div class="item"><span class="item-left">ATH biasanya di sini</span></div>
+      </div>
+      <div>
+        <div class="score-section-head" style="color:var(--orange)">Year 3 post-halving</div>
+        <div class="item"><span class="item-left">Distribution phase</span></div>
+        <div class="item"><span class="item-left">Euphoria + FOMO</span></div>
+        <div class="item"><span class="item-left">Z-Score ekstrem</span></div>
+        <div class="item"><span class="item-left">Risk reduction warranted</span></div>
+      </div>
+      <div>
+        <div class="score-section-head" style="color:var(--red)">Year 4 pre-halving</div>
+        <div class="item"><span class="item-left">Bear market / crypto winter</span></div>
+        <div class="item"><span class="item-left">Capitulation event</span></div>
+        <div class="item"><span class="item-left">Next halving narrative</span></div>
+        <div class="item"><span class="item-left">DCA entry window opens</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">3. Annual Interest Rate & Liquidity Outlook</div>
+  <div class="grid3">
+    <div class="card">
+      <div class="card-title">FOMC Dot Plot Annual Read</div>
+      <div class="item"><span class="item-left">Median rate end-year</span><span class="tag t1">Anchor expectation</span></div>
+      <div class="item"><span class="item-left">Number of cuts priced</span><span class="tag t1">CME FedWatch</span></div>
+      <div class="item"><span class="item-left">Market vs Fed gap</span><span class="tag t2">Divergence = volatility</span></div>
+      <div class="item"><span class="item-left">Neutral rate 3%+ accepted?</span><span class="mx">New normal</span></div>
+      <div class="item"><span class="item-left">QE return possibility?</span><span class="up">Biggest BTC catalyst</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">QE/QT Cycle Position</div>
+      <div class="item"><span class="item-left">QT berakhir? (WALCL flat)</span><span class="up">Transition signal</span></div>
+      <div class="item"><span class="item-left">QE baru dimulai?</span><span class="up">Strongest bull trigger</span></div>
+      <div class="item"><span class="item-left">Reserve ratio level</span><span class="tag t2">System health</span></div>
+      <div class="item"><span class="item-left">SOFR-IORB trend annual</span><span class="tag t2">Plumbing health</span></div>
+      <div class="item"><span class="item-left">Pelajaran: 2019→2020</span><span class="tag t1">QT end → QE → BTC 20x</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">MMF Rotation Thesis</div>
+      <div class="item"><span class="item-left">MMF AUM level</span><span class="tag t1">Current size</span></div>
+      <div class="item"><span class="item-left">MMF yield vs alternatives</span><span class="tag t1">Rotation trigger</span></div>
+      <div class="item"><span class="item-left">1% rotation = $70B BTC</span><span class="up">35% market cap</span></div>
+      <div class="item"><span class="item-left">Rate cuts → MMF yield turun</span><span class="up">Rotation catalyst</span></div>
+      <div class="item"><span class="item-left">ICI.org weekly tracking</span><span class="tag t2">Monitor source</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">4. Annual Geopolitical & Structural Factors</div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Trade War & Tariff Impact</div>
+      <div class="item"><span class="item-left">Effective tariff rate trend</span></div>
+      <div class="item"><span class="item-left">Trade Policy Uncertainty Index</span></div>
+      <div class="item"><span class="item-left">BRICS payment system progress</span><span class="up">De-dolarisasi</span></div>
+      <div class="item"><span class="item-left">Tarif short-term</span><span class="dn">Inflation → Fed hawkish</span></div>
+      <div class="item"><span class="item-left">Tarif long-term</span><span class="up">Twin deficit → BTC</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Energy & Mining Landscape</div>
+      <div class="item"><span class="item-left">Global energy price trend</span><span class="tag t2">Mining cost floor</span></div>
+      <div class="item"><span class="item-left">Renewable % (CBECI)</span><span class="tag t2">Regulatory defense</span></div>
+      <div class="item"><span class="item-left">Mining cost per BTC</span><span class="tag t1">Price floor</span></div>
+      <div class="item"><span class="item-left">Regulatory risk by region</span><span class="tag t3">Monitor</span></div>
+      <div class="item"><span class="item-left">Energy naik → floor naik</span><span class="up">Bullish support</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== TRADFI CORRELATIONS ==================== -->
+<div class="panel" id="panel-tradfi">
+  <div class="panel-header">
+    <span class="freq-badge badge-TF">TRADFI CORRELATIONS</span>
+    <span class="panel-header-text">Cross-asset framework — BTC vs Equities, Bonds, Commodities, FX, Volatility, Credit</span>
+  </div>
+
+  <!-- ── 1. EQUITIES ── -->
+  <div class="section-title">1. Equities — BTC vs Saham Global</div>
+  <div class="grid3">
+    <div class="card highlight">
+      <div class="card-title">S&P 500 <span class="code">SPX</span> — Korelasi Utama</div>
+      <div class="item"><span class="item-left">Korelasi 90D normal</span><span class="tag t2">0.5–0.7 (risk-on)</span></div>
+      <div class="item"><span class="item-left">Korelasi turun di bawah 0.3</span><span class="up">BTC → digital gold mode</span></div>
+      <div class="item"><span class="item-left">SPX crash >5% 1 hari</span><span class="dn">BTC ikut turun 2–3x lipat</span></div>
+      <div class="item"><span class="item-left">SPX bear market (−20%)</span><span class="dn">BTC historically −50–70%</span></div>
+      <div class="item"><span class="item-left">SPX new ATH streak</span><span class="up">Risk-on inflow ke BTC</span></div>
+      <div class="item"><span class="item-left">Earnings season + beat</span><span class="up">Liquidity risk appetite naik</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Nasdaq 100 <span class="code">QQQ / NDX</span></div>
+      <div class="item"><span class="item-left">Korelasi BTC-NDX lebih tinggi vs SPX</span></div>
+      <div class="item"><span class="item-left">BTC historis = "high-beta Nasdaq"</span><span class="tag t2">Terutama 2020–2022</span></div>
+      <div class="item"><span class="item-left">NDX P/E kontraksi</span><span class="dn">Multiple compression → BTC</span></div>
+      <div class="item"><span class="item-left">AI/tech rally</span><span class="up">Narrative overlap dengan BTC</span></div>
+      <div class="item"><span class="item-left">FAANG earnings miss</span><span class="dn">Risk-off spill ke crypto</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Regional Indices</div>
+      <div class="item"><span class="item-left">Nikkei <span class="code">NKY</span> — carry trade proxy</span><span class="tag t2">BoJ sensitivity</span></div>
+      <div class="item"><span class="item-left">Hang Seng <span class="code">HSI</span> — China risk</span><span class="tag t2">PBOC stimulus</span></div>
+      <div class="item"><span class="item-left">Euro Stoxx 50 <span class="code">SX5E</span></span><span class="tag t2">ECB proxy</span></div>
+      <div class="item"><span class="item-left">MSCI EM <span class="code">EEM</span> — DXY sensitivity</span><span class="up">DXY lemah → BTC + EM naik</span></div>
+      <div class="item"><span class="item-left">Semua region naik bersama?</span><span class="up">Global risk-on → BTC rally</span></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Equity Sector Rotation → Crypto Read-Through</div>
+      <div class="item"><span class="item-left">Tech + Growth sector leading</span><span class="up">Risk appetite tinggi → BTC +</span></div>
+      <div class="item"><span class="item-left">Defensives leading (Utilities, Healthcare)</span><span class="dn">Risk-off → BTC negatif</span></div>
+      <div class="item"><span class="item-left">Financials outperform</span><span class="up">Steepening yield curve → liquidity</span></div>
+      <div class="item"><span class="item-left">Energy sector rally</span><span class="mx">Mixed — mining cost naik, tapi inflasi</span></div>
+      <div class="item"><span class="item-left">Small-cap (Russell 2000) leading</span><span class="up">Broadening rally → altcoin season signal</span></div>
+      <div class="item"><span class="item-left">Value outperform Growth</span><span class="dn">Rate-driven rotation, BTC underperform</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Earnings Season Framework (4x setahun)</div>
+      <div class="item"><span class="item-left">Big bank earnings (JPM, GS, BAC)</span><span class="tag t1">Mulai earnings season</span></div>
+      <div class="item"><span class="item-left">Margin compression signal</span><span class="dn">Economic slowdown → BTC sell</span></div>
+      <div class="item"><span class="item-left">Revenue beat + guidance naik</span><span class="up">Risk appetite → BTC rally</span></div>
+      <div class="item"><span class="item-left">Buyback announcements besar</span><span class="up">Corporate cash → risk on</span></div>
+      <div class="item"><span class="item-left">Crypto-related stocks (COIN, MSTR)</span><span class="tag t1">BTC proxy di TradFi</span></div>
+      <div class="item"><span class="item-left">MSTR NAV premium/discount</span><span class="tag t2">Institutional BTC sentiment</span></div>
+    </div>
+  </div>
+
+  <!-- ── 2. BONDS / RATES ── -->
+  <div class="section-title">2. Bonds & Rates — Framework Lengkap</div>
+  <div class="grid4">
+    <div class="card highlight">
+      <div class="card-title">Yield Curve Shape</div>
+      <div class="item"><span class="item-left">2Y-10Y normal (steep)</span><span class="up">Expansion → BTC bullish</span></div>
+      <div class="item"><span class="item-left">2Y-10Y inverted</span><span class="dn">Recession signal → caution</span></div>
+      <div class="item"><span class="item-left">Inversion makin dalam</span><span class="dn">Deeper recession fear</span></div>
+      <div class="item"><span class="item-left">Curve re-steepen dari inversion</span><span class="dn">Recession arriving = sell first</span></div>
+      <div class="item"><span class="item-left">Bear steepening (long yield naik)</span><span class="dn">Inflation + fiscal risk → BTC muted</span></div>
+      <div class="item"><span class="item-left">Bull steepening (short yield turun)</span><span class="up">Fed pivot → BTC rocket</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Duration & Real Yield</div>
+      <div class="item"><span class="item-left">Real yield <span class="code">DFII10</span> turun</span><span class="up">Paling bullish BTC</span></div>
+      <div class="item"><span class="item-left">Real yield negatif</span><span class="up">BTC/Gold outperform cash</span></div>
+      <div class="item"><span class="item-left">Real yield 0–1%</span><span class="mx">Neutral — BTC range</span></div>
+      <div class="item"><span class="item-left">Real yield >2%</span><span class="dn">Cash attractive → BTC weak</span></div>
+      <div class="item"><span class="item-left">Real yield >3%</span><span class="dn">Strong headwind BTC</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Treasury Demand</div>
+      <div class="item"><span class="item-left">Bid-to-cover ratio tinggi</span><span class="up">Strong demand → risk appetite ok</span></div>
+      <div class="item"><span class="item-left">Auction tail (yield >WI)</span><span class="dn">Weak demand → rates surge</span></div>
+      <div class="item"><span class="item-left">Foreign demand (indirect)</span><span class="tag t2">De-dolarisasi signal</span></div>
+      <div class="item"><span class="item-left">Fed buying (QE) Treasuries</span><span class="up">Monetisasi utang → BTC</span></div>
+      <div class="item"><span class="item-left">Japan selling Treasuries</span><span class="dn">Rates spike → risk-off</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Global Rate Differentials</div>
+      <div class="item"><span class="item-left">US-EU rate gap lebar</span><span class="up">DXY kuat jangka pendek</span></div>
+      <div class="item"><span class="item-left">US-JP gap menyempit</span><span class="dn">Carry unwind → risk-off</span></div>
+      <div class="item"><span class="item-left">EM rate premium tinggi</span><span class="tag t2">EM outperform vs DM</span></div>
+      <div class="item"><span class="item-left">ECB memotong lebih cepat dari Fed</span><span class="up">EUR lemah → DXY kuat sesaat</span></div>
+      <div class="item"><span class="item-left">Global rate cuts synchronized</span><span class="up">Paling bullish BTC scenario</span></div>
+    </div>
+  </div>
+
+  <!-- ── 3. COMMODITIES ── -->
+  <div class="section-title">3. Commodities — BTC sebagai Commodity Proxy</div>
+  <div class="grid3">
+    <div class="card highlight">
+      <div class="card-title">Gold <span class="code">XAU/USD</span> — BTC's Older Sibling</div>
+      <div class="item"><span class="item-left">Gold naik = BTC naik (biasanya)</span><span class="up">Shared macro driver</span></div>
+      <div class="item"><span class="item-left">Gold naik, BTC stagnan</span><span class="mx">BTC ketinggalan → setup bullish</span></div>
+      <div class="item"><span class="item-left">BTC/Gold ratio naik</span><span class="up">Risk appetite tinggi, BTC outperform</span></div>
+      <div class="item"><span class="item-left">BTC/Gold ratio turun</span><span class="dn">Flight to safer haven</span></div>
+      <div class="item"><span class="item-left">Central bank gold buying</span><span class="up">De-dolarisasi → BTC narrative</span></div>
+      <div class="item"><span class="item-left">Gold breakout ATH</span><span class="up">BTC biasanya menyusul dalam 3–6 bulan</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Silver & Metals</div>
+      <div class="item"><span class="item-left">Silver <span class="code">XAG</span> — Gold/Silver ratio</span><span class="tag t2">Risk appetite proxy</span></div>
+      <div class="item"><span class="item-left">GSR turun (silver outperform)</span><span class="up">Risk-on → positive BTC</span></div>
+      <div class="item"><span class="item-left">Copper <span class="code">HG1</span> — "Dr. Copper"</span><span class="tag t1">Growth barometer</span></div>
+      <div class="item"><span class="item-left">Copper naik konsisten</span><span class="up">Global growth → risk-on</span></div>
+      <div class="item"><span class="item-left">Copper turun tajam</span><span class="dn">Recession fear → BTC sell</span></div>
+      <div class="item"><span class="item-left">Aluminum, Nickel (EV metals)</span><span class="tag t3">Structural demand</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Energy — Oil & Gas</div>
+      <div class="item"><span class="item-left">WTI Crude <span class="code">CL1</span> naik moderate</span><span class="up">Growth narrative → risk-on</span></div>
+      <div class="item"><span class="item-left">WTI spike >$100 (supply shock)</span><span class="dn">Inflation → Fed hawkish → BTC</span></div>
+      <div class="item"><span class="item-left">WTI crash (demand collapse)</span><span class="dn">Recession fear → semua aset turun</span></div>
+      <div class="item"><span class="item-left">Natural gas naik</span><span class="dn">Mining cost meningkat → miner jual BTC</span></div>
+      <div class="item"><span class="item-left">Energy transisi (renewable)</span><span class="up">Positive untuk BTC narrative</span></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Commodity Complex (CRB/DJP Index)</div>
+      <div class="item"><span class="item-left">CRB Index naik = broad commodity bull</span><span class="mx">Inflasi naik → Fed hawkish</span></div>
+      <div class="item"><span class="item-left">CRB naik + Fed paused</span><span class="up">Risk-on commodities = BTC positif</span></div>
+      <div class="item"><span class="item-left">CRB turun tajam</span><span class="dn">Deflation / recession signal</span></div>
+      <div class="item"><span class="item-left">Agri commodities spike</span><span class="dn">Food inflation → EM stress</span></div>
+      <div class="item"><span class="item-left">Commodity supercycle thesis</span><span class="up">BTC = digital commodity supercycle</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">BTC sebagai "Digital Commodity"</div>
+      <div class="item"><span class="item-left">BTC korelasi Gold 6M rolling</span><span class="tag t1">Track triwulanan</span></div>
+      <div class="item"><span class="item-left">Korelasi >0.6 dengan Gold</span><span class="up">Safe haven narrative aktif</span></div>
+      <div class="item"><span class="item-left">Korelasi <0.2 dengan Gold</span><span class="mx">BTC = pure risk asset fase</span></div>
+      <div class="item"><span class="item-left">BTC vs Oil korelasi negatif</span><span class="up">BTC = alternative energy narrative</span></div>
+      <div class="item"><span class="item-left">GSCI commodity index vs BTC</span><span class="tag t2">Monitor supercycle alignment</span></div>
+    </div>
+  </div>
+
+  <!-- ── 4. FX ── -->
+  <div class="section-title">4. FX / Currency — Dollar & EM Dynamics</div>
+  <div class="grid4">
+    <div class="card highlight">
+      <div class="card-title">DXY vs TWI</div>
+      <div class="item"><span class="item-left">DXY <span class="code">DX1</span> — trade-weighted vs 6 majors</span></div>
+      <div class="item"><span class="item-left">TWI <span class="code">DTWEXBGS</span> — broader basket</span></div>
+      <div class="item"><span class="item-left">TWI lebih akurat dari DXY</span><span class="tag t1">Gunakan TWI</span></div>
+      <div class="item"><span class="item-left">DXY naik = BTC turun (korelasi −0.7)</span><span class="dn">Inverse korelasi kuat</span></div>
+      <div class="item"><span class="item-left">DXY turun = BTC naik</span><span class="up">Strongest macro catalyst</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Major FX Pairs</div>
+      <div class="item"><span class="item-left">EUR/USD <span class="code">EURUSD</span> naik</span><span class="up">DXY lemah → BTC +</span></div>
+      <div class="item"><span class="item-left">USD/JPY <span class="code">USDJPY</span> naik</span><span class="dn">Carry trade aktif → risk-on tapi fragile</span></div>
+      <div class="item"><span class="item-left">USD/JPY >150 level</span><span class="dn">BoJ intervention risk → unwind</span></div>
+      <div class="item"><span class="item-left">GBP/USD naik</span><span class="up">Risk appetite, DXY lemah</span></div>
+      <div class="item"><span class="item-left">USD/CHF naik</span><span class="dn">CHF safe haven flight = risk-off</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">EM Currencies</div>
+      <div class="item"><span class="item-left">USD/CNY <span class="code">USDCNH</span> level</span><span class="tag t1">China devaluation risk</span></div>
+      <div class="item"><span class="item-left">CNY melemah >7.3</span><span class="dn">Capital outflow China → crypto?</span></div>
+      <div class="item"><span class="item-left">CNY menguat</span><span class="up">PBoC stimulus → global risk-on</span></div>
+      <div class="item"><span class="item-left">EM FX broad weakness</span><span class="dn">DXY terlalu kuat → EM outflow</span></div>
+      <div class="item"><span class="item-left">IDR, BRL, INR, MXN basket</span><span class="tag t2">EM stress barometer</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Stablecoin FX Mechanics</div>
+      <div class="item"><span class="item-left">USDT premium di peer-to-peer</span><span class="up">Demand dari EM untuk USD exposure</span></div>
+      <div class="item"><span class="item-left">USDT premium di Asia (Tether OTC)</span><span class="up">Capital flight signal</span></div>
+      <div class="item"><span class="item-left">USDC vs USDT dominance shift</span><span class="tag t2">Regulatory preference</span></div>
+      <div class="item"><span class="item-left">Stablecoin = digital dollarisasi</span><span class="up">BTC & DXY soft power</span></div>
+    </div>
+  </div>
+
+  <!-- ── 5. VOLATILITY ── -->
+  <div class="section-title">5. Volatility — Fear & Greed Cross-Asset</div>
+  <div class="grid3">
+    <div class="card highlight">
+      <div class="card-title">VIX <span class="code">VIXCLS</span> — Equity Fear Index</div>
+      <div class="item"><span class="item-left">VIX <15</span><span class="up">Complacency → risk-on, BTC +</span></div>
+      <div class="item"><span class="item-left">VIX 15–25</span><span class="mx">Normal regime</span></div>
+      <div class="item"><span class="item-left">VIX 25–35</span><span class="dn">Elevated fear → BTC volatile</span></div>
+      <div class="item"><span class="item-left">VIX >35</span><span class="dn">Panic — BTC sell-off akut</span></div>
+      <div class="item"><span class="item-left">VIX spike >40</span><span class="up">Near-term bottom signal (contrarian)</span></div>
+      <div class="item"><span class="item-left">VIX turun dari high</span><span class="up">Risk appetite kembali → BTC rally</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Crypto-Specific Vol</div>
+      <div class="item"><span class="item-left">BVOL — BTC 30D implied vol</span><span class="tag t1">Options premium</span></div>
+      <div class="item"><span class="item-left">IV > RV (vol premium)</span><span class="mx">Theta seller environment</span></div>
+      <div class="item"><span class="item-left">IV < RV (vol cheap)</span><span class="up">Buy options / gamma</span></div>
+      <div class="item"><span class="item-left">Term structure contango</span><span class="mx">Market calm jangka pendek</span></div>
+      <div class="item"><span class="item-left">Term structure backwardation</span><span class="dn">Near-term event risk tinggi</span></div>
+      <div class="item"><span class="item-left">Put/Call skew crypto</span><span class="tag t2">Smart money positioning</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Other Vol Indices</div>
+      <div class="item"><span class="item-left">MOVE Index (bond vol)</span><span class="tag t1">Rate uncertainty</span></div>
+      <div class="item"><span class="item-left">MOVE naik = rate tantrums</span><span class="dn">Bond market stress → risk-off</span></div>
+      <div class="item"><span class="item-left">OVX (oil vol)</span><span class="tag t2">Energy uncertainty</span></div>
+      <div class="item"><span class="item-left">GVZ (gold vol)</span><span class="tag t2">Safe haven demand</span></div>
+      <div class="item"><span class="item-left">EVZ (EUR/USD vol)</span><span class="tag t2">FX uncertainty</span></div>
+      <div class="item"><span class="item-left">VIX + MOVE + BVOL semua tinggi</span><span class="dn">Systemic stress — cash is king</span></div>
+    </div>
+  </div>
+
+  <!-- ── 6. CREDIT ── -->
+  <div class="section-title">6. Credit Markets — Leading Indicator BTC</div>
+  <div class="grid3">
+    <div class="card highlight">
+      <div class="card-title">Credit Spreads — Early Warning</div>
+      <div class="item"><span class="item-left">IG Spread <span class="code">BAMLC0A0CM</span></span><span class="tag t1">Investment grade</span></div>
+      <div class="item"><span class="item-left">HY Spread <span class="code">BAMLH0A0HYM2</span></span><span class="tag t1">High yield = junk</span></div>
+      <div class="item"><span class="item-left">HY <300bps</span><span class="up">Credit benign → risk-on</span></div>
+      <div class="item"><span class="item-left">HY 300–500bps</span><span class="mx">Caution zone</span></div>
+      <div class="item"><span class="item-left">HY >500bps</span><span class="dn">Credit stress → BTC dump</span></div>
+      <div class="item"><span class="item-left">HY spread → 2–4 minggu lead</span><span class="tag t1">Leading BTC indicator</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Consumer & Corporate Stress</div>
+      <div class="item"><span class="item-left">Credit card delinquency <span class="code">DRCCLACBS</span></span><span class="dn">Consumer stress naik</span></div>
+      <div class="item"><span class="item-left">Auto loan delinquency</span><span class="dn">Lower-income stress signal</span></div>
+      <div class="item"><span class="item-left">CRE (Commercial Real Estate) stress</span><span class="dn">Regional bank exposure risk</span></div>
+      <div class="item"><span class="item-left">Junk bond default rate naik</span><span class="dn">Lanjut ke risk-off</span></div>
+      <div class="item"><span class="item-left">Senior loan officer survey</span><span class="tag t1">Lending tightening = credit crunch</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Banking System Health</div>
+      <div class="item"><span class="item-left">STLFSI2 <span class="code">St. Louis FSI</span></span><span class="tag t1">Systemic stress composite</span></div>
+      <div class="item"><span class="item-left">FSI positif</span><span class="dn">Above-normal stress</span></div>
+      <div class="item"><span class="item-left">FSI negatif</span><span class="up">Below-normal = risk-on</span></div>
+      <div class="item"><span class="item-left">LIBOR-OIS / SOFR-IORB spike</span><span class="dn">Interbank stress → cash hoarding</span></div>
+      <div class="item"><span class="item-left">Bank CDS spreads naik</span><span class="dn">2023 SVB flashback signal</span></div>
+    </div>
+  </div>
+
+  <!-- ── 7. CROSS-ASSET MATRIX ── -->
+  <div class="section-title">7. Cross-Asset Signal Matrix — Kombinasi & Kesimpulan</div>
+  <div class="card highlight" style="margin-bottom:10px">
+    <div class="card-title" style="margin-bottom:10px">Risk-On vs Risk-Off Composite (semua aset dalam satu pandangan)</div>
+    <div class="grid4">
+      <div>
+        <div class="score-section-head score-green">RISK-ON SIGNALS</div>
+        <div class="item"><span class="item-left">SPX naik >1% per minggu</span><span class="up">+1</span></div>
+        <div class="item"><span class="item-left">NDX outperform SPX</span><span class="up">+1</span></div>
+        <div class="item"><span class="item-left">Small cap > Large cap</span><span class="up">+1</span></div>
+        <div class="item"><span class="item-left">HY spread menyempit</span><span class="up">+2</span></div>
+        <div class="item"><span class="item-left">VIX turun / <20</span><span class="up">+1</span></div>
+        <div class="item"><span class="item-left">DXY melemah</span><span class="up">+2</span></div>
+        <div class="item"><span class="item-left">Copper naik</span><span class="up">+1</span></div>
+        <div class="item"><span class="item-left">Real yield turun</span><span class="up">+2</span></div>
+      </div>
+      <div>
+        <div class="score-section-head score-red">RISK-OFF SIGNALS</div>
+        <div class="item"><span class="item-left">SPX turun >2% per minggu</span><span class="dn">−1</span></div>
+        <div class="item"><span class="item-left">Defensives outperform</span><span class="dn">−1</span></div>
+        <div class="item"><span class="item-left">IG/HY spread melebar</span><span class="dn">−2</span></div>
+        <div class="item"><span class="item-left">VIX naik / >25</span><span class="dn">−1</span></div>
+        <div class="item"><span class="item-left">DXY menguat tajam</span><span class="dn">−2</span></div>
+        <div class="item"><span class="item-left">Copper turun >3%</span><span class="dn">−1</span></div>
+        <div class="item"><span class="item-left">Gold naik, BTC turun</span><span class="dn">−1</span></div>
+        <div class="item"><span class="item-left">MOVE index naik</span><span class="dn">−1</span></div>
+      </div>
+      <div>
+        <div class="score-section-head score-orange">RARE DECOUPLING SIGNALS</div>
+        <div class="item"><span class="item-left">Gold naik, SPX turun, BTC naik</span><span class="up">BTC = safe haven mode</span></div>
+        <div class="item"><span class="item-left">DXY naik, BTC naik</span><span class="up">Regulatory catalyst / ETF</span></div>
+        <div class="item"><span class="item-left">SPX flat, BTC volatile</span><span class="mx">Crypto-specific event</span></div>
+        <div class="item"><span class="item-left">VIX tinggi, BTC stabil</span><span class="up">BTC maturation signal</span></div>
+        <div class="item"><span class="item-left">Bonds naik + BTC naik</span><span class="up">Liquidity flush global</span></div>
+        <div class="item"><span class="item-left">EM crash, BTC naik</span><span class="up">Capital flight narrative</span></div>
+      </div>
+      <div>
+        <div class="score-section-head" style="color:var(--text-muted)">INTERPRETASI KOMPOSIT</div>
+        <div class="item"><span class="item-left">+8 hingga +11</span><span class="up">Max risk-on → BTC aggressive long</span></div>
+        <div class="item"><span class="item-left">+4 hingga +7</span><span class="up">Risk-on → BTC overweight</span></div>
+        <div class="item"><span class="item-left">0 hingga +3</span><span class="mx">Neutral → market weight</span></div>
+        <div class="item"><span class="item-left">−3 hingga −1</span><span class="dn">Mild risk-off → reduce exposure</span></div>
+        <div class="item"><span class="item-left">−7 hingga −4</span><span class="dn">Risk-off → defensive + stables</span></div>
+        <div class="item"><span class="item-left">−11 hingga −8</span><span class="dn">Systemic stress → full cash</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 8. HISTORICAL CORRELATION TABLE ── -->
+  <div class="section-title">8. Tabel Korelasi Historis BTC vs Aset TradFi</div>
+  <div class="card">
+    <div class="grid3">
+      <div>
+        <div class="score-section-head" style="color:var(--text-muted);margin-bottom:8px">ASSET — KORELASI 90D (approx)</div>
+        <div class="item"><span class="item-left">BTC vs S&P 500</span><span class="mx">+0.50 hingga +0.70</span></div>
+        <div class="item"><span class="item-left">BTC vs Nasdaq 100</span><span class="mx">+0.60 hingga +0.75</span></div>
+        <div class="item"><span class="item-left">BTC vs Gold</span><span class="mx">+0.10 hingga +0.45</span></div>
+        <div class="item"><span class="item-left">BTC vs DXY</span><span class="dn">−0.60 hingga −0.80</span></div>
+        <div class="item"><span class="item-left">BTC vs HY Spread</span><span class="dn">−0.50 hingga −0.65</span></div>
+        <div class="item"><span class="item-left">BTC vs VIX</span><span class="dn">−0.40 hingga −0.65</span></div>
+        <div class="item"><span class="item-left">BTC vs Real Yield</span><span class="dn">−0.55 hingga −0.75</span></div>
+        <div class="item"><span class="item-left">BTC vs Oil (WTI)</span><span class="mx">+0.20 hingga +0.40</span></div>
+        <div class="item"><span class="item-left">BTC vs Copper</span><span class="mx">+0.30 hingga +0.50</span></div>
+        <div class="item"><span class="item-left">BTC vs USD/JPY</span><span class="mx">+0.20 hingga +0.50</span></div>
+      </div>
+      <div>
+        <div class="score-section-head" style="color:var(--text-muted);margin-bottom:8px">KONDISI KORELASI BERUBAH</div>
+        <div class="item"><span class="item-left">Risk-off (krisis)</span><span class="dn">Semua korelasi naik ke +1</span></div>
+        <div class="item"><span class="item-left">Bull market crypto</span><span class="up">BTC decouples dari SPX</span></div>
+        <div class="item"><span class="item-left">ETF approval effect</span><span class="up">BTC-Gold korelasi naik</span></div>
+        <div class="item"><span class="item-left">Regulatory crackdown</span><span class="mx">BTC decouples negatif</span></div>
+        <div class="item"><span class="item-left">ZIRP era (2020–2021)</span><span class="up">Korelasi SPX paling tinggi</span></div>
+        <div class="item"><span class="item-left">Rate hike era (2022)</span><span class="dn">Korelasi NDX sangat kuat</span></div>
+        <div class="item"><span class="item-left">Post-ETF 2024+</span><span class="up">BTC–Gold korelasi meningkat</span></div>
+        <div class="item"><span class="item-left">Pasar sepi/sideways</span><span class="mx">Korelasi lemah/tidak stabil</span></div>
+      </div>
+      <div>
+        <div class="score-section-head" style="color:var(--text-muted);margin-bottom:8px">CARA HITUNG ROLLING KORELASI</div>
+        <div class="item"><span class="item-left">Window: 30D, 90D, 180D</span></div>
+        <div class="item"><span class="item-left">Tool: TradingView script</span><span class="tag t1">CORR(BTC, SPX, 90)</span></div>
+        <div class="item"><span class="item-left">Python: <span class="code">df.rolling(90).corr()</span></span></div>
+        <div class="item"><span class="item-left">Korelasi bergerak = dinamis</span><span class="tag t2">Jangan gunakan korelasi statis</span></div>
+        <div class="item"><span class="item-left">Sumber: Woobull Charts</span><span class="tag t2">Korelasi visual BTC</span></div>
+        <div class="item"><span class="item-left">Sumber: Glassnode Studio</span><span class="tag t2">Institutional correlation</span></div>
+        <div class="item"><span class="item-left">Sumber: Bloomberg CORR</span><span class="tag t3">Professional terminal</span></div>
+        <div class="item"><span class="item-left">Update frekuensi: bulanan</span><span class="tag t1">Minimal quarterly review</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 9. MACRO SCENARIOS ── -->
+  <div class="section-title">9. Skenario Makro & Prediksi Cross-Asset Impact ke BTC</div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Skenario Bull — kondisi ideal BTC</div>
+      <div class="item"><span class="item-left">Fed cut 3x+ dalam setahun</span><span class="up">Real yield turun, likuiditas naik</span></div>
+      <div class="item"><span class="item-left">DXY melemah 8–10%</span><span class="up">Global M2 USD-equivalent naik</span></div>
+      <div class="item"><span class="item-left">Gold tembus ATH baru</span><span class="up">BTC menyusul dengan lag 3–6 bulan</span></div>
+      <div class="item"><span class="item-left">SPX bull market berlanjut</span><span class="up">Risk appetite tinggi → altseason</span></div>
+      <div class="item"><span class="item-left">HY spread <250bps</span><span class="up">Credit market sehat</span></div>
+      <div class="item"><span class="item-left">MMF outflow mulai</span><span class="up">Rotation ke risk assets termasuk BTC</span></div>
+      <div class="item"><span class="item-left">ETF AUM terus naik</span><span class="up">Institutional demand terkonfirmasi</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Skenario Bear — BTC paling tertekan</div>
+      <div class="item"><span class="item-left">Fed hike lagi (surprise)</span><span class="dn">Liquidity kontraksi tajam</span></div>
+      <div class="item"><span class="item-left">DXY naik ke 115+</span><span class="dn">EM crisis + BTC crash</span></div>
+      <div class="item"><span class="item-left">SPX bear market >20%</span><span class="dn">BTC −50–70% historically</span></div>
+      <div class="item"><span class="item-left">HY spread >600bps</span><span class="dn">Credit crunch → deleveraging semua</span></div>
+      <div class="item"><span class="item-left">Japan carry trade unwind</span><span class="dn">August 2024 repeat risk</span></div>
+      <div class="item"><span class="item-left">China devaluation besar</span><span class="dn">Contagion ke EM + risk-off global</span></div>
+      <div class="item"><span class="item-left">US recession confirmed</span><span class="dn">GDP negatif 2 quarters berturut-turut</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== OUTPUT FORMAT ==================== -->
+<div class="panel" id="panel-output">
+  <div class="panel-header">
+    <span class="freq-badge badge-OUT">OUTPUT</span>
+    <span class="panel-header-text">Format laporan untuk exchange / institutional audience</span>
+  </div>
+
+  <div class="section-title">Weekly Report Structure</div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Bagian wajib weekly report</div>
+      <ul class="checklist">
+        <li><span class="check">1</span>Executive Summary — 3 bullet poin kunci minggu ini</li>
+        <li><span class="check">2</span>Net Liquidity Update — angka terbaru + perubahan vs minggu lalu</li>
+        <li><span class="check">3</span>Key Macro Events — recap CPI/NFP/FOMC yang terjadi</li>
+        <li><span class="check">4</span>BTC Technical + On-Chain — support/resistance + exchange flows</li>
+        <li><span class="check">5</span>Signal Score — bullish/bearish score dari checklist tier 1</li>
+        <li><span class="check">6</span>Events to Watch — calendar minggu depan yang perlu diantisipasi</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Monthly Report Structure</div>
+      <ul class="checklist">
+        <li><span class="check">1</span>Macro Regime — di fase mana sekarang (goldilocks/stagflasi dll)</li>
+        <li><span class="check">2</span>Global M2 Update — 4 komponen + trend</li>
+        <li><span class="check">3</span>Fed Policy Assessment — next meeting odds + dot plot check</li>
+        <li><span class="check">4</span>BTC Cycle Position — halving cycle + Z-score dashboard</li>
+        <li><span class="check">5</span>Institutional Flows — ETF data + CME futures</li>
+        <li><span class="check">6</span>Altcoin/Market Structure — BTC dom + ETH/BTC + Total2/3</li>
+        <li><span class="check">7</span>Risk Factors — top 3 tail risks untuk bulan depan</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-title">Quarterly & Yearly Report Structure</div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Quarterly Deep Dive</div>
+      <ul class="checklist">
+        <li><span class="check">1</span>Macro Regime Assessment — 4-box framework</li>
+        <li><span class="check">2</span>Structural Risk Review — twin deficit, debt spiral, Japan</li>
+        <li><span class="check">3</span>Crypto Fundamentals — network health, valuation models</li>
+        <li><span class="check">4</span>Regulatory Update — US/EU/Asia landscape</li>
+        <li><span class="check">5</span>Regional Equity vs BTC correlation</li>
+        <li><span class="check">6</span>Earnings Season read-through untuk crypto</li>
+        <li><span class="check">7</span>Next quarter outlook dengan probability scenarios</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Yearly State of Macro</div>
+      <ul class="checklist">
+        <li><span class="check">1</span>Annual macro thesis — 5 structural pillars check</li>
+        <li><span class="check">2</span>Halving cycle position — where are we in the 4-year cycle</li>
+        <li><span class="check">3</span>Dollar cycle analysis — TWI trend + GS projections</li>
+        <li><span class="check">4</span>QE/QT cycle outlook — liquidity conditions for the year</li>
+        <li><span class="check">5</span>MMF rotation thesis — probability dan catalysts</li>
+        <li><span class="check">6</span>Geopolitical factors — tariff, de-dollarization, BRICS</li>
+        <li><span class="check">7</span>Annual price scenarios — bull/base/bear case dengan justifikasi</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SOURCES ==================== -->
+<div class="panel" id="panel-sources">
+  <div class="panel-header">
+    <span class="freq-badge badge-SRC">SOURCES</span>
+    <span class="panel-header-text">Database lengkap sumber data untuk tiap kategori</span>
+  </div>
+
+  <div class="section-title">Macro Data Sources</div>
+  <div class="grid3">
+    <div class="card">
+      <div class="card-title">FRED (fred.stlouisfed.org)</div>
+      <div class="item"><span class="item-left">WALCL, WTREGEN, RRPONTSYD</span><span class="tag t1">Weekly</span></div>
+      <div class="item"><span class="item-left">M2SL, DFII10, T10YIE</span><span class="tag t1">Core</span></div>
+      <div class="item"><span class="item-left">BAMLH0A0HYM2, STLFSI2</span><span class="tag t1">Credit</span></div>
+      <div class="item"><span class="item-left">DTWEXBGS, DGS10, VIXCLS</span><span class="tag t1">Market</span></div>
+      <div class="item"><span class="item-left">50+ kode — free & API available</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Central Banks Direct</div>
+      <div class="item"><span class="item-left">Fed: federalreserve.gov</span><span class="tag t1">H.4.1 weekly</span></div>
+      <div class="item"><span class="item-left">ECB: ecb.europa.eu</span><span class="tag t2">EU M2</span></div>
+      <div class="item"><span class="item-left">PBoC: pbc.gov.cn</span><span class="tag t2">China M2</span></div>
+      <div class="item"><span class="item-left">BoJ: boj.or.jp</span><span class="tag t2">Japan M2 + rate</span></div>
+      <div class="item"><span class="item-left">BIS: bis.org</span><span class="tag t1">Global M2 aggregate</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Market Intelligence</div>
+      <div class="item"><span class="item-left">CME FedWatch</span><span class="tag t1">Rate probability daily</span></div>
+      <div class="item"><span class="item-left">ICI.org</span><span class="tag t1">MMF weekly flows</span></div>
+      <div class="item"><span class="item-left">TradingEconomics.com</span><span class="tag t2">All macro indicators</span></div>
+      <div class="item"><span class="item-left">MacroMicro.me</span><span class="tag t2">Visual macro charts</span></div>
+      <div class="item"><span class="item-left">GoldmanSachs.com/insights</span><span class="tag t2">GS research</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">Crypto On-Chain & Market Data</div>
+  <div class="grid3">
+    <div class="card">
+      <div class="card-title">On-Chain Analytics</div>
+      <div class="item"><span class="item-left">Glassnode.com</span><span class="tag t1">Best on-chain</span></div>
+      <div class="item"><span class="item-left">CryptoQuant.com</span><span class="tag t1">Exchange flows</span></div>
+      <div class="item"><span class="item-left">Nansen.ai</span><span class="tag t1">Smart money</span></div>
+      <div class="item"><span class="item-left">Dune Analytics</span><span class="tag t2">Custom queries</span></div>
+      <div class="item"><span class="item-left">CBECI (ccaf.io)</span><span class="tag t2">Mining energy</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Market Structure</div>
+      <div class="item"><span class="item-left">TradingView</span><span class="tag t1">Charts + screener</span></div>
+      <div class="item"><span class="item-left">Coinglass.com</span><span class="tag t1">OI + liquidation</span></div>
+      <div class="item"><span class="item-left">Laevitas.ch</span><span class="tag t1">Options flow</span></div>
+      <div class="item"><span class="item-left">The Block Research</span><span class="tag t2">Industry data</span></div>
+      <div class="item"><span class="item-left">Coinmetrics.io</span><span class="tag t2">Network data</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Institutional & ETF</div>
+      <div class="item"><span class="item-left">Farside.co.uk/bitcoin-etf</span><span class="tag t1">ETF daily flows</span></div>
+      <div class="item"><span class="item-left">Blackrock IBIT page</span><span class="tag t1">AUM daily</span></div>
+      <div class="item"><span class="item-left">SEC EDGAR</span><span class="tag t2">13F filings</span></div>
+      <div class="item"><span class="item-left">Bloomberg Terminal</span><span class="tag t2">Professional</span></div>
+      <div class="item"><span class="item-left">Binance Research</span><span class="tag t2">Reports library</span></div>
+    </div>
+  </div>
+
+  <div class="section-title">Research & Reports (Monthly/Quarterly reading)</div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title">Must-Read Reports</div>
+      <ul class="checklist">
+        <li><span class="check">→</span>Binance Research — monthly crypto market report</li>
+        <li><span class="check">→</span>Coinbase Institutional — quarterly macro + crypto</li>
+        <li><span class="check">→</span>Goldman Sachs Global Investment Research</li>
+        <li><span class="check">→</span>Guggenheim Investments macro outlook</li>
+        <li><span class="check">→</span>BIS Quarterly Review — global banking + macro</li>
+        <li><span class="check">→</span>IMF World Economic Outlook (April & October)</li>
+        <li><span class="check">→</span>Glassnode Week On-Chain (every Monday)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Analyst Tools (Python stack)</div>
+      <ul class="checklist">
+        <li><span class="check">→</span>yfinance — market data (BTC, equities, commodities)</li>
+        <li><span class="check">→</span>fredapi — FRED data programmatic access</li>
+        <li><span class="check">→</span>pandas — data manipulation + rolling Z-score</li>
+        <li><span class="check">→</span>matplotlib / plotly — charting</li>
+        <li><span class="check">→</span>scipy.stats — Z-score, correlation, regression</li>
+        <li><span class="check">→</span>requests — scrape CryptoQuant, Glassnode API</li>
+        <li><span class="check">→</span>jupyter notebook — interactive research environment</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
